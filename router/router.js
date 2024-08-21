@@ -4,6 +4,8 @@ const employeeCRUD = require('../postgreOperations/employee/employeeCRUD');
 const employeeFunction = require('../postgreOperations/employee/employeeFunction');
 const positionCRUD = require('../postgreOperations/position/positionCRUD');
 const positionFunction = require('../postgreOperations/position/positionFunction');
+const departmentCRUD = require('../postgreOperations/department/departmentCRUD');
+const departmentFunction = require('../postgreOperations/department/departmentFunction');
 
 //------------------------------ employee ----------------------------------//
 
@@ -91,6 +93,46 @@ router.get('/position/get',(req,res,next) =>{
     );
 })
 
+//------------------------------ department ----------------------------------//
 
+/* create employee department */
+router.post('/department/insert',(req,res,next) =>{
+
+    departmentCRUD.insert_employee_dep(req).then(
+        respone => res.json(respone)
+    ).catch(
+        err => next(err)
+    );
+});
+
+/* update employee department */
+router.post('/department/update',(req,res,next) =>{
+
+    departmentCRUD.update_employee_dep(req).then(
+        respone => res.json(respone)
+    ).catch(
+        err => next(err)
+    );
+});
+
+/* delete employee department */
+router.delete('/department/delete',(req,res,next) =>{
+    
+    departmentCRUD.delete_employee_dep(req).then(
+        respone => res.json(respone)
+    ).catch(
+        err => next(err)
+    );
+})
+
+/* get employee department */
+router.get('/department/get',(req,res,next) =>{
+    const body = req.body;
+    departmentFunction.get_employee_dep(body).then(
+        respone => res.json(respone)
+    ).catch(
+        err => next(err)
+    );
+})
 
 module.exports = router;
