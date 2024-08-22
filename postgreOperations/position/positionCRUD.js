@@ -32,7 +32,10 @@ async function insert_employee_pos(body)
         format_insert_query = format_insert_query.slice(0, format_insert_query.length - 1);
         format_insert_query = 'INSERT INTO employee.tblemppos(employeeId, dateChange, posId, note) VALUES' + format_insert_query;
         const pool = await connection.query(format_insert_query);
-        return pool.rows;
+        return {
+            status: status.operationStatus(104),
+            totalRowInserted: pool.rowCount
+        };
     } catch (error) {
         console.log(error);
         throw error;
@@ -68,7 +71,10 @@ async function update_employee_pos(body)
         }
         format_insert_query = `BEGIN; ` + format_insert_query + ` COMMIT;`;
         const pool = await connection.query(format_insert_query);
-        return pool.rows;
+        return {
+            status: status.operationStatus(104),
+            totalRowModified: pool.filter(ele => ele.command === 'UPDATE' && ele.rowCount === 1).length
+        };
     } catch (error) {
         console.log(error);
         throw error;
@@ -90,7 +96,10 @@ async function delete_employee_pos(body)
         format_insert_query = format_insert_query.slice(0, format_insert_query.length - 1);
         format_insert_query = `DELETE FROM employee.tblemppos WHERE keyid IN(${format_insert_query});`;
         const pool = await connection.query(format_insert_query);
-        return pool.rows;
+        return {
+            status: status.operationStatus(104),
+            totalRowDeleted: pool.rowCount
+        };
     } catch (error) {
         console.log(error);
         throw error;

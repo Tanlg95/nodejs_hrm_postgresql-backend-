@@ -1,11 +1,15 @@
 const express = require('express');
 const router = express.Router();
+const authToken = require('../tokenOperations/jwt').authToken;
 const employeeCRUD = require('../postgreOperations/employee/employeeCRUD');
 const employeeFunction = require('../postgreOperations/employee/employeeFunction');
 const positionCRUD = require('../postgreOperations/position/positionCRUD');
 const positionFunction = require('../postgreOperations/position/positionFunction');
 const departmentCRUD = require('../postgreOperations/department/departmentCRUD');
 const departmentFunction = require('../postgreOperations/department/departmentFunction');
+const accountCRUD = require('../postgreOperations/account/accountCRUD');
+const accountFunction = require('../postgreOperations/account/accountFunction');
+
 
 //------------------------------ employee ----------------------------------//
 
@@ -40,7 +44,7 @@ router.delete('/employee/delete',(req,res,next) =>{
 })
 
 /* get employee information */
-router.get('/employee/get',(req,res,next) =>{
+router.get('/employee/get',authToken,(req,res,next) =>{
     const body = req.body;
     employeeFunction.get_employee_info(body).then(
         respone => res.json(respone)
@@ -129,6 +133,59 @@ router.delete('/department/delete',(req,res,next) =>{
 router.get('/department/get',(req,res,next) =>{
     const body = req.body;
     departmentFunction.get_employee_dep(body).then(
+        respone => res.json(respone)
+    ).catch(
+        err => next(err)
+    );
+})
+
+
+//------------------------------ account ----------------------------------//
+
+/* create account */
+router.post('/account/insert',(req,res,next) =>{
+    const body = req.body;
+    accountCRUD.create_account(body).then(
+        respone => res.json(respone)
+    ).catch(
+        err => next(err)
+    );
+});
+
+/* update account */
+router.post('/account/update',(req,res,next) =>{
+    const body = req.body;
+    accountCRUD.update_account(body).then(
+        respone => res.json(respone)
+    ).catch(
+        err => next(err)
+    );
+});
+
+/* delete account */
+router.delete('/account/delete',(req,res,next) =>{
+    const body = req.body;
+    accountCRUD.delete_account(body).then(
+        respone => res.json(respone)
+    ).catch(
+        err => next(err)
+    );
+})
+
+/* renew token */
+router.post('/account/renewtoken',(req,res,next) =>{
+    const body = req.body;
+    accountCRUD.renewToken(body).then(
+        respone => res.json(respone)
+    ).catch(
+        err => next(err)
+    );
+})
+
+/* login */
+router.post('/account/login',(req,res,next) =>{
+    const body = req.body;
+    accountFunction.login(body).then(
         respone => res.json(respone)
     ).catch(
         err => next(err)
