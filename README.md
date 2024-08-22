@@ -1,6 +1,6 @@
 📜This is my small human resource management personal project (backend API).
 
-🖥Dev with PostgreSQL + nodejs ( express, mssql, bcryppt, jsonwebtoken, dotenv, cors, body-parser, nodemon )
+🖥Dev with PostgreSQL + nodejs ( express, pg, bcryppt, jsonwebtoken, dotenv, cors, body-parser, nodemon )
 
 🕹Function:
 	
